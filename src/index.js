@@ -1,5 +1,6 @@
 const NUMBEROFBUBBLES = 55;
 const colors = ['#C5E1A5', "#FFF176", "#FF9800"];
+const ANIMATIONSPEED = "500ms";
 
 
 class ElasticBubbleAnimation {
@@ -10,7 +11,7 @@ class ElasticBubbleAnimation {
         if (!opts.colors) {
             this.colors = colors;
         }
-
+        this.radius = parseInt(this.opts.bubbleSize.replace('px', '')) / 2;
         this.positions = [];
         this.initialPosition = {};
         this.bubbles = [];
@@ -38,7 +39,9 @@ class ElasticBubbleAnimation {
 
         this.opts.el.addEventListener('mouseleave', (e) => {
             this.opts.el.removeEventListener('mousemove', this.mouseMoveHandler);
-            return this.mouseOutHandler(e);
+            setTimeout(() => {
+                return this.mouseOutHandler(e);
+            }, 650)
         });
 
     }
@@ -59,7 +62,7 @@ class ElasticBubbleAnimation {
         bubble.style.top = position.y + 'px';
         bubble.style.left = position.x + 'px';
         bubble.style.translate = `transform(${position.x},${position.y})`;
-        bubble.style.transition = 'all 250ms ease';
+        bubble.style.transition = `all ${ANIMATIONSPEED} ease`;
         this.opts.el.appendChild(bubble);
         return {
             id: this.bubbles.length + 1 + '-' + 'bubble',
@@ -84,8 +87,9 @@ class ElasticBubbleAnimation {
     moveBubblesToMouse(event) {
         this.bubbles.forEach(bubble => {
 
+            const boundingBoxes = bubble.bubble.getBoundingClientRect();
+
             if (!this.initialPosition[bubble.id]) {
-                const boundingBoxes = bubble.bubble.getBoundingClientRect();
 
                 this.initialPosition[bubble.id] = {
                     x: boundingBoxes.x,
@@ -93,17 +97,43 @@ class ElasticBubbleAnimation {
                 }
             }
 
-            const randomAngle = (this.getRandomNumber(0, 360)) * Math.PI / 180;
+            const { x, y } = this.generateRandomRadialPosition();
+            const xBounds = [boundingBoxes.x, event.clientX];
+            const yBounds = [boundingBoxes.y, event.clientY];
 
-            const x = (10 * Math.cos(randomAngle));
-            const y = (10 * Math.sin(randomAngle));
+            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
 
-            const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
-            const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
+            setTimeout(() => {
+                const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
+                const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
+                bubble.bubble.style.top = yFromCenter;
+                bubble.bubble.style.left = xFromCenter;
+            }, ANIMATIONSPEED / 2);
 
-            bubble.bubble.style.top = yFromCenter;
-            bubble.bubble.style.left = xFromCenter;
         });
+    }
+
+
+    moveRandomly(xBounds, yBounds, bubble, mousePosition) {
+        const xRandomPoint = this.getRandomNumber(Math.min(xBounds[0], xBounds[1]), Math.max(xBounds[0], xBounds[1]));
+        const yRandomPoint = this.getRandomNumber(Math.min(yBounds[0], yBounds[1]), Math.max(yBounds[0], yBounds[1]))
+        const yFromCenter = ((yRandomPoint)) + 'px';
+        const xFromCenter = ((xRandomPoint)) + 'px';
+        setTimeout(() => {
+            bubble.style.top = yFromCenter;
+            bubble.style.left = xFromCenter;
+        }, ANIMATIONSPEED / 2)
+    }
+
+    generateRandomRadialPosition() {
+        const randomAngle = (this.getRandomNumber(0, 360)) * Math.PI / 180;
+        const x = (this.radius * Math.cos(randomAngle));
+        const y = (this.radius * Math.sin(randomAngle));
+        return {
+            x, y
+        }
     }
 
 
