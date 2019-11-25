@@ -4,7 +4,7 @@
     (global = global || self, global.ElasticBubbleAnimation = factory());
 }(this, function () { 'use strict';
 
-    var NUMBEROFBUBBLES = 55;
+    var NUMBEROFBUBBLES = 20;
     var colors = ['#C5E1A5', "#FFF176", "#FF9800"];
     var ANIMATIONSPEED = "500ms";
 
@@ -29,7 +29,6 @@
     ElasticBubbleAnimation.prototype.init = function init () {
             var this$1 = this;
 
-        this.opts.el.style.position = 'relative';
         this.opts.el.style.overflow = 'hidden';
         for (var i = 0; i < this.numberOfBubbles; i += 1) {
             var bubble = this.addBubble();
@@ -68,7 +67,7 @@
         bubble.style.position = "absolute";
         bubble.style.top = position.y + 'px';
         bubble.style.left = position.x + 'px';
-        bubble.style.translate = "transform(" + (position.x) + "," + (position.y) + ")";
+        // bubble.style.translate = `transform(${position.x},${position.y})`;
         bubble.style.transition = "all " + ANIMATIONSPEED + " ease";
         this.opts.el.appendChild(bubble);
         return {
@@ -159,8 +158,13 @@
         this.xBounds = [container.x, container.right];
         this.yBounds = [container.y, container.bottom];
 
-        x = this.getRandomNumber(this.xBounds[0], this.xBounds[1]);
-        y = this.getRandomNumber(this.yBounds[0], this.yBounds[1]);
+        var xMin = Math.min(this.xBounds[0], this.xBounds[1]);
+        var xMax = Math.max(this.xBounds[1], this.xBounds[1]);
+        var yMin = Math.min(this.yBounds[0], this.yBounds[1]);
+        var yMax = Math.max(this.yBounds[1], this.yBounds[1]);
+
+        x = this.getRandomNumber(xMin, xMax);
+        y = this.getRandomNumber(yMin, yMax);
 
         return {
             x: x, y: y

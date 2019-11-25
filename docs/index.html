@@ -9,15 +9,41 @@
 </head>
 
 <body>
-    <div class="bubble-container" style="height:400px;width:300px"></div>
+    <div style="display:flex">
+        <div id="bubble-container" style="height:400px;width:300px"></div>
+        <div id="bubble-container1" style="height:400px;width:300px"></div>
+        <div id="bubble-container2" style="height:400px;width:300px"></div>
+    </div>
     <script src="./elastic-bubble-animation.umd.js"></script>
     <script>
         const bubble = new ElasticBubbleAnimation({
-            el: document.querySelector('.bubble-container'),
-            bubbleSize: "25px"
+            el: document.getElementById('bubble-container'),
+            bubbleSize: "25px",
+            bubbleCount: 23
+        });
+
+
+
+        const bubble1 = new ElasticBubbleAnimation({
+            el: document.getElementById('bubble-container1'),
+            bubbleSize: "55px",
+            colors: ["#673AB7", "#FF9800", '#4CAF50'],
+            bubbleCount: 11
+        });
+
+
+
+        const bubble2 = new ElasticBubbleAnimation({
+            el: document.getElementById('bubble-container2'),
+            bubbleSize: "75px",
+            colors: ["#212121"],
+            bubbleCount: 5
         });
 
         bubble.init();
+        bubble1.init();
+        bubble2.init();
+
     </script>
 </body>
 
