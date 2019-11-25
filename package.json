@@ -1,6 +1,6 @@
 {
   "name": "elastic-bubble-animation",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "dist/elastic-bubble-animation.cjs.js",
   "module": "dist/elastic-bubble-animation.esm.js",
   "browser": "dist/elastic-bubble-animation.umd.js",
