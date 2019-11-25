@@ -97,20 +97,24 @@ class ElasticBubbleAnimation {
                 }
             }
 
-            const { x, y } = this.generateRandomRadialPosition();
-            const xBounds = [boundingBoxes.x, event.clientX];
-            const yBounds = [boundingBoxes.y, event.clientY];
-
-            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-            this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+            this.resetBubblePositions();
 
             setTimeout(() => {
-                const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
-                const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
-                bubble.bubble.style.top = yFromCenter;
-                bubble.bubble.style.left = xFromCenter;
-            }, ANIMATIONSPEED / 2);
+                const { x, y } = this.generateRandomRadialPosition();
+                const xBounds = [boundingBoxes.x, event.clientX];
+                const yBounds = [boundingBoxes.y, event.clientY];
+
+                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
+
+                setTimeout(() => {
+                    const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
+                    const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
+                    bubble.bubble.style.top = yFromCenter;
+                    bubble.bubble.style.left = xFromCenter;
+                }, ANIMATIONSPEED / 2);
+            }, (500));
 
         });
     }
