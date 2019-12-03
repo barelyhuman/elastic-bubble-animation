@@ -17,6 +17,7 @@ class ElasticBubbleAnimation {
         this.bubbles = [];
         this.xBounds = [];
         this.yBounds = [];
+        this.bubbleBackground = opts.bubbleBackground;
         this.mouseMoveHandler = this.moveBubblesToMouse.bind(this);
         this.mouseOutHandler = this.resetBubblePositions.bind(this);
     }
@@ -57,6 +58,14 @@ class ElasticBubbleAnimation {
         bubble.style.width = this.opts.bubbleSize;
         bubble.style.borderRadius = "100px";
         bubble.style.background = rgba;
+
+        if (this.bubbleBackground) {
+            bubble.style.background = `url(${this.bubbleBackground})`;
+            bubble.style.backgroundSize = 'contain';
+            bubble.style.backgroundPosition = 'center';
+            bubble.style.backgroundRepeat = 'no-repeat';
+        }
+
         bubble.style.position = "absolute";
         bubble.style.top = position.y + 'px';
         bubble.style.left = position.x + 'px';
@@ -104,16 +113,13 @@ class ElasticBubbleAnimation {
                 const yBounds = [boundingBoxes.y, event.clientY];
 
                 this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
 
-                setTimeout(() => {
-                    const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
-                    const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
-                    bubble.bubble.style.top = yFromCenter;
-                    bubble.bubble.style.left = xFromCenter;
-                }, ANIMATIONSPEED / 2);
-            }, (500));
+                const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
+                const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
+                bubble.bubble.style.top = yFromCenter;
+                bubble.bubble.style.left = xFromCenter;
+            }, ANIMATIONSPEED / 2);
+
 
         });
     }
