@@ -17,6 +17,7 @@ class ElasticBubbleAnimation {
         this.bubbles = [];
         this.xBounds = [];
         this.yBounds = [];
+        this.bubbleBackground = opts.bubbleBackground;
         this.mouseMoveHandler = this.moveBubblesToMouse.bind(this);
         this.mouseOutHandler = this.resetBubblePositions.bind(this);
     }
@@ -57,6 +58,14 @@ class ElasticBubbleAnimation {
         bubble.style.width = this.opts.bubbleSize;
         bubble.style.borderRadius = "100px";
         bubble.style.background = rgba;
+
+        if (this.bubbleBackground) {
+            bubble.style.background = this.bubbleBackground;
+            bubble.style.backgroundSize = 'contain';
+            bubble.style.backgroundPosition = 'center';
+            bubble.style.backgroundRepeat = 'no-repeat';
+        }
+
         bubble.style.position = "absolute";
         bubble.style.top = position.y + 'px';
         bubble.style.left = position.x + 'px';
