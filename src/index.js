@@ -60,7 +60,7 @@ class ElasticBubbleAnimation {
         bubble.style.background = rgba;
 
         if (this.bubbleBackground) {
-            bubble.style.background = this.bubbleBackground;
+            bubble.style.background = `url(${this.bubbleBackground})`;
             bubble.style.backgroundSize = 'contain';
             bubble.style.backgroundPosition = 'center';
             bubble.style.backgroundRepeat = 'no-repeat';
@@ -113,16 +113,13 @@ class ElasticBubbleAnimation {
                 const yBounds = [boundingBoxes.y, event.clientY];
 
                 this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
-                this.moveRandomly(xBounds, yBounds, bubble.bubble, event);
 
-                setTimeout(() => {
-                    const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
-                    const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
-                    bubble.bubble.style.top = yFromCenter;
-                    bubble.bubble.style.left = xFromCenter;
-                }, ANIMATIONSPEED / 2);
-            }, (500));
+                const yFromCenter = ((event.clientY) - parseInt(y)) + 'px';
+                const xFromCenter = ((event.clientX) + parseInt(x)) + 'px';
+                bubble.bubble.style.top = yFromCenter;
+                bubble.bubble.style.left = xFromCenter;
+            }, ANIMATIONSPEED / 2);
+
 
         });
     }
